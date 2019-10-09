@@ -5,6 +5,10 @@
   display: table-header-group !important;
 }
 
+.hide {
+  display: none;
+}
+
 [id^="roster"] {
   /* gets all elements where id starting with info */
   display: none;

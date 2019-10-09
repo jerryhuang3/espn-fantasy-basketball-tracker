@@ -37,8 +37,8 @@ const Teams = ({ teamsArray }) => {
   };
 
   const team = teams.map(team => (
-    <Team
-      key={team.id}
+		<Team 
+			key={team.id}
       expandRoster={expandRoster}
       team={team}
       isShowing={isShowing}

@@ -33,7 +33,7 @@ const Team = ({ team, expandRoster, isShowing }) => {
   };
 
   return (
-    <Table.Row>
+    <Table.Row className={isShowing && isShowing !== team.id ? `hide`: ""}>
       <Table.Cell>
         <Header as="h4" image>
           <Image src={team.logo} rounded size="mini" />
