@@ -50,7 +50,6 @@ router.get("/", async function(req, res, next) {
       roster: []
     })
   );
-  teamObjArray.map(team => console.log(team.owner));
   membersArray.forEach((member, idx) => {
     teamObjArray[idx].name = `${member.firstName} ${member.lastName}`;
   });

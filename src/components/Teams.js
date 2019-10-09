@@ -7,13 +7,12 @@ const Teams = ({ teamsArray }) => {
   const [isSorted, setIsSorted] = useState(false);
   const [sortTag, setSortTag] = useState("");
   const [url, setUrl] = useState(null);
-  const [isShowing, setIsShowing] = useState(null);
-  const [isAvgDraftSorted, setIsAvgDraftSorted] = useState(false);
-  const [AvgDraft, setAvgDraft] = useState("");
-
+	const [isShowing, setIsShowing] = useState(null);
+	
   useEffect(() => {
     setTeams(teamsArray);
   }, [teamsArray, teams]);
+
 
   const sortWaiver = e => {
     if (!isSorted) {
@@ -31,7 +30,6 @@ const Teams = ({ teamsArray }) => {
 
   const expandRoster = (e, id) => {
     if (!isShowing || isShowing !== id) {
-      console.log("setting id", id, typeof id);
       setIsShowing(id);
     } else {
       setIsShowing(null);

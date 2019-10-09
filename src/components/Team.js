@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Header, Image, Table, TableBody, Container } from "semantic-ui-react";
 
 const Team = ({ team, expandRoster, isShowing }) => {
-  const [buttonText, setButtonText] = useState("expand");
+  const [buttonText, setButtonText] = useState("show");
   const [avgDraft, setAvgDraft] = useState(null);
 
   useEffect(() => {
     if (isShowing !== team.id) {
-      setButtonText("expand");
+      setButtonText("show");
     }
   }, [isShowing]);
 

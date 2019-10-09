@@ -16,7 +16,7 @@ const App = () => {
   };
 
   return (
-    <div className='container'>
+    <div className="container">
       <div className="header">
         <h1>Fantasy Basketball League</h1>
       </div>
