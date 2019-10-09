@@ -1,0 +1,35 @@
+{
+  "name": "fantasybasketball",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "parcel build ./src/index.html",
+    "dev": "concurrently --kill-others \"parcel ./src/index.html\" \"nodemon server.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "browserslist": [
+    "last 1 Chrome versions"
+  ],
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.3",
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/preset-react": "^7.6.3",
+    "concurrently": "^5.0.0",
+    "nodemon": "^1.19.3",
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.23.0"
+  }
+}

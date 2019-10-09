@@ -1,0 +1,8 @@
+.cache
+.vscode
+dist
+node_modules
+.env
+mockData.json
+mRoster.json
+mTeam.json
