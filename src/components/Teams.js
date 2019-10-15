@@ -4,27 +4,30 @@ import Team from "./Team";
 
 const Teams = ({ teamsArray }) => {
   const [teams, setTeams] = useState([]);
-  const [isSorted, setIsSorted] = useState(false);
-  const [sortTag, setSortTag] = useState("");
+  const [isSorted, setIsSorted] = useState(null);
+  const [sortTag, setSortTag] = useState(null);
   const [url, setUrl] = useState(null);
-	const [isShowing, setIsShowing] = useState(null);
-	
+  const [isShowing, setIsShowing] = useState(null);
+
   useEffect(() => {
     setTeams(teamsArray);
   }, [teamsArray, teams]);
 
-
-  const sortWaiver = e => {
-    if (!isSorted) {
-      const sortedTeams = teams.sort((a, b) => (a.waiver > b.waiver ? 1 : -1));
+  const sortTable = e => {
+    const sortType = e.target.getAttribute("data-value");
+    setIsSorted(sortType);
+    if (!sortTag || sortTag === "▼") {
+      const sortedTeams = teams.sort((a, b) =>
+        a[sortType] > b[sortType] ? 1 : -1
+      );
       setTeams(sortedTeams);
       setSortTag("▲");
-      setIsSorted(true);
     } else {
-      const sortedTeams = teams.sort((a, b) => (a.waiver < b.waiver ? 1 : -1));
+      const sortedTeams = teams.sort((a, b) =>
+        a[sortType] < b[sortType] ? 1 : -1
+      );
       setTeams(sortedTeams);
       setSortTag("▼");
-      setIsSorted(false);
     }
   };
 
@@ -37,8 +40,8 @@ const Teams = ({ teamsArray }) => {
   };
 
   const team = teams.map(team => (
-		<Team 
-			key={team.id}
+    <Team
+      key={team.id}
       expandRoster={expandRoster}
       team={team}
       isShowing={isShowing}
@@ -75,11 +78,15 @@ const Teams = ({ teamsArray }) => {
               </Table.HeaderCell>
               <Table.HeaderCell>Losses</Table.HeaderCell>
               <Table.HeaderCell>
-                <p onClick={sortWaiver} value={"waiver"}>
-                  Waiver # {sortTag}
+                <p onClick={sortTable} data-value={"waiver"}>
+                  Waiver # {isSorted === "waiver" ? sortTag : ""}
                 </p>
               </Table.HeaderCell>
-              <Table.HeaderCell>Draft Avg</Table.HeaderCell>
+              <Table.HeaderCell>
+                <p onClick={sortTable} data-value={"rosterDraftAvg"}>
+                  Draft Avg {isSorted === "rosterDraftAvg" ? sortTag : ""}
+                </p>
+              </Table.HeaderCell>
               <Table.HeaderCell>Roster</Table.HeaderCell>
             </Table.Row>
           </Table.Header>

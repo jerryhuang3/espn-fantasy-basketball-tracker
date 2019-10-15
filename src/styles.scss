@@ -17,7 +17,7 @@
 .container {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: 1fr auto auto;
   margin-left: 60px !important;
   margin-right: 60px !important;
 
@@ -27,8 +27,23 @@
     justify-self: center;
   }
 
-  .teams {
+  .activity {
+    display: grid;
     grid-row: 2;
+    justify-items: center;
+    align-self: center;
+    margin-bottom: 20px;
+    .recent {
+      display: grid;
+      grid-template-columns: auto auto;
+      font-size: 10px;
+      padding: 5px;
+      width: 95%;
+    }
+  }
+
+  .teams {
+    grid-row: 3;
     display: grid;
     grid-template-columns: 2fr 3fr;
     grid-template-rows: 1fr;
@@ -48,11 +63,11 @@
 
 @media (min-width: 700px) and (max-width: 1450px) {
   .container {
+    margin-left: 40px !important;
+    margin-right: 40px !important;
 
-		margin-left: 40px !important;
-		margin-right: 40px !important;
     .teams {
-      grid-row: 2;
+      grid-row: 3;
       display: grid;
       grid-template-columns: 1fr;
       grid-template-rows: auto auto;
@@ -78,33 +93,41 @@
   .container {
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto;
-		margin: 0 !important;
+    grid-template-rows: 1fr auto auto;
+    margin: 0 !important;
 
     .header {
       h1 {
         font-size: 20px;
       }
-		}
-		
+    }
+
     .teams {
-      grid-row: 2;
+      grid-row: 3;
       display: grid;
       grid-template-columns: 1fr;
       grid-template-rows: auto auto;
-			justify-items: center;
-			gap: 20px;
-			font-size: 10px;
+      justify-items: center;
+      gap: 20px;
+      font-size: 10px;
 
       .teams-list {
         grid-column: 1;
         grid-row: 1 / span 1;
+        .content {
+          padding-left: 5px;
+          font-size: 12px;
+          .sub.header {
+            display: none;
+          }
+        }
       }
 
       .roster {
         grid-column: 1;
         grid-row: 2 / span 2;
         align-self: center;
+        padding: 10px;
       }
     }
   }

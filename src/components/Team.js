@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Header, Image, Table, TableBody, Container } from "semantic-ui-react";
+import { Header, Image, Table, Button } from "semantic-ui-react";
 
 const Team = ({ team, expandRoster, isShowing }) => {
   const [buttonText, setButtonText] = useState("show");
-  const [avgDraft, setAvgDraft] = useState(null);
 
   useEffect(() => {
     if (isShowing !== team.id) {
@@ -12,15 +11,7 @@ const Team = ({ team, expandRoster, isShowing }) => {
   }, [isShowing]);
 
   useEffect(() => {
-    const draftPositionArray = team.roster.map(
-      player => player.averageDraftPosition
-    );
-
-    let sum = 0;
-    for (let i = 0; i < draftPositionArray.length; i++) {
-      sum += parseInt(draftPositionArray[i]);
-    }
-    setAvgDraft((sum / draftPositionArray.length).toFixed(2));
+   
   }, []);
 
   const onClick = e => {
@@ -33,7 +24,7 @@ const Team = ({ team, expandRoster, isShowing }) => {
   };
 
   return (
-    <Table.Row className={isShowing && isShowing !== team.id ? `hide`: ""}>
+    <Table.Row className={isShowing && isShowing !== team.id ? `hide` : ""}>
       <Table.Cell>
         <Header as="h4" image>
           <Image src={team.logo} rounded size="mini" />
@@ -47,9 +38,11 @@ const Team = ({ team, expandRoster, isShowing }) => {
       <Table.Cell>{team.record.wins}</Table.Cell>
       <Table.Cell>{team.record.losses}</Table.Cell>
       <Table.Cell>{team.waiver}</Table.Cell>
-      <Table.Cell>{avgDraft}</Table.Cell>
+      <Table.Cell>{team.rosterDraftAvg.toFixed(2)}</Table.Cell>
       <Table.Cell>
-        <button onClick={onClick}>{`${buttonText} roster`}</button>
+        <Button size="mini" onClick={onClick}>
+          {buttonText}
+        </Button>
         {isShowing === team.id ? " ►" : ""}
       </Table.Cell>
     </Table.Row>
