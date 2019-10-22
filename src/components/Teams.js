@@ -6,7 +6,6 @@ const Teams = ({ teamsArray }) => {
   const [teams, setTeams] = useState([]);
   const [isSorted, setIsSorted] = useState(null);
   const [sortTag, setSortTag] = useState(null);
-  const [url, setUrl] = useState(null);
   const [isShowing, setIsShowing] = useState(null);
 
   useEffect(() => {
@@ -57,13 +56,8 @@ const Teams = ({ teamsArray }) => {
 
     const website = `https://www.basketball-reference.com/players/${firstLetterLastName}/${firstFiveLettersLastName}${firstTwoLettersFirstName}01.html`;
 
-    setUrl(website);
+    window.open(website);
   };
-
-  if (url) {
-    window.open(url);
-    setUrl(null);
-  }
 
   return (
     <React.Fragment>

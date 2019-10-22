@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Teams from "./components/Teams";
 import Activity from "./components/Activity";
-import { Container } from "semantic-ui-react";
 // import mockData from "../mockData.json";
 const App = () => {
   const [teams, setTeams] = useState([]);
@@ -16,8 +15,6 @@ const App = () => {
     // const teamsArray = mockData;
     setTeams(teamsArray);
   };
-
-  
 
   return (
     <div className="container">
