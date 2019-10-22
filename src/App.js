@@ -17,10 +17,12 @@ const App = () => {
     setTeams(teamsArray);
   };
 
+  
+
   return (
     <div className="container">
       <div className="header">
-        <h1>Fantasy Basketball League</h1>
+        <h1>TRMBA Basketball League</h1>
       </div>
       <Activity />
       <div className="teams">

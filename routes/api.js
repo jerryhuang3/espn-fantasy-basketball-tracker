@@ -2,6 +2,12 @@ require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const router = express.Router();
+const moment = require("moment");
+moment.locale("en", {
+  week: {
+    dow: 1 // First day of week is Monday
+  }
+});
 
 const url =
   "https://fantasy.espn.com/apis/v3/games/fba/seasons/2020/segments/0/leagues/54564064";
@@ -173,4 +179,91 @@ router.get("/test", async (req, res) => {
   res.json(activityArray);
 });
 
+router.get("/players", async (req, res) => {
+  const [league, roster, schedule] = await Promise.all([
+    axios.get(`${url}?view=mTeam`, {
+      headers: {
+        Cookie: cookie
+      }
+    }),
+    axios.get(`${url}?view=mRoster`, {
+      headers: {
+        Cookie: cookie
+      }
+    }),
+    axios.get(
+      "https://fantasy.espn.com/apis/v3/games/fba/seasons/2020?view=proTeamSchedules_wl",
+      {
+        headers: {
+          Cookie: cookie
+        }
+      }
+    )
+  ]);
+  //Week 1: [0 - 6]
+  //Week 2: [7 - 13]
+  const teamRosters = roster.data.teams.map(team => ({
+    id: team.id,
+    roster: team.roster.entries.map(entry => ({
+      playerId: entry.playerId,
+      playerName: entry.playerPoolEntry.player.fullName,
+      proTeamId: entry.playerPoolEntry.player.proTeamId,
+      schedule: Object.keys(
+        schedule.data.settings.proTeams.find(
+          team => team.id === entry.playerPoolEntry.player.proTeamId
+        ).proGamesByScoringPeriod
+      )
+    }))
+  }));
+
+  const matchup = {};
+  let week = 1;
+  let day = moment(1571797800000)
+    .startOf("week")
+    .valueOf();
+  for (let i = 1; i <= 120; i++) {
+    if (!matchup[week]) {
+      // console.log("initialize week at i:", i);
+      matchup[week] = [];
+    }
+    if (i % 6 === 0 && i !== 102) {
+      console.log("pushing at week", week, i);
+      matchup[week].push(
+        moment(day)
+          .startOf("week")
+          .format("dddd, MMMM Do YYYY, h:mm a")
+      );
+      matchup[week].push(
+        moment(day)
+          .endOf("week")
+          .format("dddd, MMMM Do YYYY, h:mm a")
+      );
+
+      day = day + 7 * 86400000 + 4000000;
+      console.log(day);
+      console.log(
+        moment(day)
+          .startOf("week")
+          .format("dddd, MMMM Do YYYY, h:mm a")
+      );
+      week++;
+    }
+    if (i === 102) {
+      matchup[week].push(
+        moment(day)
+          .startOf("week")
+          .format("dddd, MMMM Do YYYY, h:mm a")
+      );
+      day = day + 7 * 86400000 + 4000000;
+      matchup[week].push(
+        moment(day)
+          .endOf("week")
+          .format("dddd, MMMM Do YYYY, h:mm a")
+      );
+      day = day + 7 * 86400000 + 4000000;
+      week++;
+    }
+  }
+  res.json(matchup);
+});
 module.exports = router;

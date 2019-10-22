@@ -1,3 +1,25 @@
+@media (prefers-color-scheme: dark) {
+  body {
+    color: #fff;
+    background-color: rgb(43, 43, 43);
+  }
+  div,
+  tr,
+  th,
+  table,
+  tbody {
+    color: #fff !important;
+    border-color: #fff !important;
+  }
+  a {
+    color: #a3d1ff;
+  }
+  .ui.celled.table tr td,
+  .ui.celled.table tr th {
+    border-color: #fff !important;
+  }
+}
+
 .show-roster {
   display: table-row-group !important;
 }
@@ -32,36 +54,43 @@
     grid-row: 2;
     justify-items: center;
     align-self: center;
+    margin: 0 auto;
     margin-bottom: 20px;
+    button {
+      margin-bottom: 10px;
+    }
     .recent {
       display: grid;
       grid-template-columns: auto auto;
-      font-size: 10px;
-      padding: 5px;
+      column-gap: 40px;
+      font-size: 14px;
+      padding: 10px;
       width: 95%;
+      text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
     }
   }
 
   .teams {
     grid-row: 3;
     display: grid;
-    grid-template-columns: 2fr 3fr;
-    grid-template-rows: 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
     justify-items: center;
     gap: 40px;
 
     .teams-list {
-      grid-column: 1 / span 1;
+      grid-row: 1 / span 1;
+      min-width: 565px;
     }
 
     .roster {
-      grid-column: 2 / span 1;
+      grid-row: 2 / span 1;
       align-self: center;
     }
   }
 }
 
-@media (min-width: 700px) and (max-width: 1450px) {
+@media (min-width: 601px) and (max-width: 1450px) {
   .container {
     margin-left: 40px !important;
     margin-right: 40px !important;
@@ -89,9 +118,10 @@
   }
 }
 
-@media (max-width: 699px) {
+@media (max-width: 600px) {
   .container {
     display: grid;
+    width: 100%;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto auto;
     margin: 0 !important;
@@ -114,6 +144,7 @@
       .teams-list {
         grid-column: 1;
         grid-row: 1 / span 1;
+        min-width: 0;
         .content {
           padding-left: 5px;
           font-size: 12px;
@@ -128,6 +159,17 @@
         grid-row: 2 / span 2;
         align-self: center;
         padding: 10px;
+      }
+    }
+
+    .activity {
+      .recent {
+        display: grid;
+        grid-template-columns: auto auto;
+        font-size: 10px;
+        padding: 5px;
+        width: 95%;
+        text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
       }
     }
   }
