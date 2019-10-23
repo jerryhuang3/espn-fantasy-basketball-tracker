@@ -3,13 +3,15 @@
     color: #fff;
     background-color: rgb(43, 43, 43);
   }
-  div,
   tr,
   th,
   table,
   tbody {
     color: #fff !important;
     border-color: #fff !important;
+    div {
+      color: #fff !important;
+    }
   }
   a {
     color: #a3d1ff;
@@ -17,6 +19,20 @@
   .ui.celled.table tr td,
   .ui.celled.table tr th {
     border-color: #fff !important;
+  }
+  .week-dropdown {
+    color: black !important;
+    div {
+      color: black !important;
+    }
+  }
+  .show-matchup {
+    .home-team {
+      border-right: 1px solid rgb(60, 60, 60) !important;
+    }
+    .away-team {
+      border-left: 1px solid rgb(60, 60, 60) !important;
+    }
   }
 }
 
@@ -88,6 +104,48 @@
     .roster {
       grid-row: 2 / span 1;
       align-self: center;
+    }
+  }
+
+  .show-matchup {
+    width: 75%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    margin: 10px;
+    row-gap: 20px;
+    img {
+      width: 75px;
+      height: 75px;
+    }
+    .matchup-header {
+      grid-column: 1 / span 2;
+      grid-row: 1 / span 1;
+      font-size: 30px;
+    }
+    .home-team {
+      z-index: 0;
+      grid-column: 1 / span 1;
+      grid-row: 2;
+      border-right: 1px solid rgb(199, 199, 199);
+      width: 100%;
+    }
+    .versus {
+      z-index: 1;
+      grid-column: 1 / span 2;
+      grid-row: 2;
+      font-size: 50px;
+      text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
+    }
+    .away-team {
+      z-index: 0;
+      grid-column: 2 / span 1;
+      grid-row: 2;
+      border-left: 1px solid rgb(199, 199, 199);
+      width: 100%;
     }
   }
 }
@@ -171,6 +229,10 @@
         font-size: 10px;
         padding: 10px;
       }
+    }
+
+    .show-matchup {
+      width: 100%;
     }
   }
 }

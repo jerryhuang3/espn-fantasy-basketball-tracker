@@ -5,19 +5,25 @@ import Activity from "./components/Activity";
 const App = () => {
   const [teams, setTeams] = useState([]);
   const [matchups, setMatchups] = useState([]);
+  const [weeks, setWeeks] = useState([]);
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
-    const response = await fetch("/api");
-    const teamsArray = await response.json();
-
-    const matchupResponse = await fetch("/api/matchup");
-    const matchupArray = await matchupResponse.json();
-
+    const [teamsFetch, matchupFetch, weeksFetch] = await Promise.all([
+      fetch("/api"),
+      fetch("/api/matchup"),
+      fetch("/api/weeks")
+    ]);
+    const [teamsArray, matchupArray, weeksArray] = await Promise.all([
+      teamsFetch.json(),
+      matchupFetch.json(),
+      weeksFetch.json()
+    ]);
     // const teamsArray = mockData;
+    setWeeks(weeksArray);
     setMatchups(matchupArray);
     setTeams(teamsArray);
   };
@@ -29,7 +35,7 @@ const App = () => {
       </div>
       <Activity />
       <div className="teams">
-        <Teams teamsArray={teams} matchupsArray={matchups} />
+        <Teams teamsArray={teams} matchupsArray={matchups} weeksArray={weeks} />
       </div>
     </div>
   );

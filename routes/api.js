@@ -179,7 +179,7 @@ router.get("/test", async (req, res) => {
   res.json(activityArray);
 });
 
-router.get("/players", async (req, res) => {
+router.get("/weeks", async (req, res) => {
   const [league, roster, schedule] = await Promise.all([
     axios.get(`${url}?view=mTeam`, {
       headers: {
@@ -200,8 +200,7 @@ router.get("/players", async (req, res) => {
       }
     )
   ]);
-  //Week 1: [0 - 6]
-  //Week 2: [7 - 13]
+
   const teamRosters = roster.data.teams.map(team => ({
     id: team.id,
     roster: team.roster.entries.map(entry => ({
@@ -216,53 +215,43 @@ router.get("/players", async (req, res) => {
     }))
   }));
 
-  const matchup = {};
+  const matchup = ["matchup periods"];
   let week = 1;
   let day = moment(1571797800000)
     .startOf("week")
     .valueOf();
   for (let i = 1; i <= 120; i++) {
-    if (!matchup[week]) {
-      // console.log("initialize week at i:", i);
-      matchup[week] = [];
-    }
+    // initialize week at i
+    matchup[week] = {};
+
     if (i % 6 === 0 && i !== 102) {
-      matchup[week].push(
-        moment(day)
-          .startOf("week")
-          .format("dddd, MMMM Do YYYY, h:mm a")
-      );
-      matchup[week].push(
-        moment(day)
-          .endOf("week")
-          .format("dddd, MMMM Do YYYY, h:mm a")
-      );
+      matchup[week].value = week;
+      matchup[week].text = `Week ${week}`;
+      matchup[week].start = moment(day)
+        .startOf("week")
+        .format("dddd, MMMM Do YYYY, h:mm a");
+      matchup[week].end = moment(day)
+        .endOf("week")
+        .format("dddd, MMMM Do YYYY, h:mm a");
 
       day = day + 7 * 86400000 + 4000000;
-      console.log(day);
-      console.log(
-        moment(day)
-          .startOf("week")
-          .format("dddd, MMMM Do YYYY, h:mm a")
-      );
       week++;
     }
     if (i === 102) {
-      matchup[week].push(
-        moment(day)
-          .startOf("week")
-          .format("dddd, MMMM Do YYYY, h:mm a")
-      );
+      matchup[week].value = week;
+      matchup[week].text = `Week ${week}`;
+      matchup[week].start = moment(day)
+        .startOf("week")
+        .format("dddd, MMMM Do YYYY, h:mm a");
       day = day + 7 * 86400000 + 4000000;
-      matchup[week].push(
-        moment(day)
-          .endOf("week")
-          .format("dddd, MMMM Do YYYY, h:mm a")
-      );
+      matchup[week].end = moment(day)
+        .endOf("week")
+        .format("dddd, MMMM Do YYYY, h:mm a");
       day = day + 7 * 86400000 + 4000000;
       week++;
     }
   }
+  matchup.shift();
   res.json(matchup);
 });
 
@@ -281,28 +270,40 @@ router.get("/matchup", async (req, res) => {
   ]);
 
   const teamObj = team.data.teams.map(team => {
-    return { id: team.id, tag: team.abbrev, logo: team.logo };
+    return {
+      id: team.id,
+      tag: team.abbrev,
+      logo: team.logo,
+      name: `${team.location} ${team.nickname}`.trim()
+    };
   });
 
+  const currentWeek = matchup.data.status.currentMatchupPeriod;
+  console.log("currentWeek", currentWeek);
+
   const matchupWeek = matchup.data.schedule.filter(
-    matchup => matchup.matchupPeriodId === 1
+    matchup => matchup.matchupPeriodId === currentWeek
   );
 
   const matchupObj = matchupWeek.map(matchup => {
+    // console.log(matchup);
     if (matchup.away && matchup.home) {
       return {
         homeTeam: {
           teamId: matchup.home.teamId,
           tag: teamObj.find(team => team.id === matchup.home.teamId).tag,
+          name: teamObj.find(team => team.id === matchup.home.teamId).name,
           logo: teamObj.find(team => team.id === matchup.home.teamId).logo,
           totalPointsLive: matchup.home.totalPointsLive
         },
         awayTeam: {
           teamId: matchup.away.teamId,
           tag: teamObj.find(team => team.id === matchup.away.teamId).tag,
+          name: teamObj.find(team => team.id === matchup.away.teamId).name,
           logo: teamObj.find(team => team.id === matchup.away.teamId).logo,
           totalPointsLive: matchup.away.totalPointsLive
-        }
+        },
+        winner: matchup.winner
       };
     } else {
       return {
@@ -310,6 +311,7 @@ router.get("/matchup", async (req, res) => {
         homeTeam: {
           teamId: matchup.home.teamId,
           tag: teamObj.find(team => team.id === matchup.home.teamId).tag,
+          name: teamObj.find(team => team.id === matchup.home.teamId).name,
           logo: teamObj.find(team => team.id === matchup.home.teamId).logo,
           totalPointsLive: matchup.home.totalPointsLive
         }

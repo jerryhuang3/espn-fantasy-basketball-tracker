@@ -1,16 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { Header, Image, Table, Button } from "semantic-ui-react";
+import { Header, Image, Table, Button, Dropdown } from "semantic-ui-react";
 
-const Team = ({ team, expandRoster, isShowing, currentMatchup, mobile }) => {
+const Team = ({
+  team,
+  expandRoster,
+  expandMatchup,
+  matchup,
+  showRoster,
+  currentMatchup,
+  mobile,
+  weeks
+}) => {
   const [buttonText, setButtonText] = useState("show");
   const [points, setPoints] = useState(null);
   const [opponent, setOpponent] = useState({});
 
   useEffect(() => {
-    if (isShowing !== team.id) {
+    console.log(mobile)
+    if (showRoster !== team.id) {
       setButtonText("show");
     }
-  }, [isShowing]);
+  }, [showRoster]);
 
   useEffect(() => {
     if (team.id === currentMatchup.homeTeam.teamId) {
@@ -23,7 +33,7 @@ const Team = ({ team, expandRoster, isShowing, currentMatchup, mobile }) => {
   }, []);
 
   const onClick = e => {
-    if (!isShowing || isShowing !== team.id) {
+    if (!showRoster || showRoster !== team.id) {
       setButtonText("hide");
     } else {
       setButtonText("show");
@@ -31,16 +41,35 @@ const Team = ({ team, expandRoster, isShowing, currentMatchup, mobile }) => {
     expandRoster(e, team.id);
   };
 
+  const selectMatchup = (e, data) => {
+    if (data.children === "BYE BYE BYE") {
+      return;
+    }
+    expandMatchup(currentMatchup, team.id);
+  };
+
   let matchupStatus;
   if (opponent === "bye") {
     matchupStatus = "BYE BYE BYE";
   } else {
-    matchupStatus =
-      points > opponent.totalPointsLive ? "U BE WINNING" : "U BE LOSING";
+    if (points > opponent.totalPointsLive) {
+      matchupStatus = "U WINNIN'";
+    } else if (points < opponent.totalPointsLive) {
+      matchupStatus = "U LOSIN'";
+    } else {
+      matchupStatus = "U BE TIED";
+    }
   }
 
   return (
-    <Table.Row className={isShowing && isShowing !== team.id ? `hide` : ""}>
+    <Table.Row
+      className={
+        (showRoster && showRoster !== team.id) ||
+        (matchup && matchup !== team.id)
+          ? `hide`
+          : ""
+      }
+    >
       <Table.Cell>
         <Header as="h4" image>
           <Image src={team.logo} rounded size="mini" />
@@ -67,20 +96,28 @@ const Team = ({ team, expandRoster, isShowing, currentMatchup, mobile }) => {
         <Button size="mini" onClick={onClick}>
           {buttonText}
         </Button>
-        {isShowing === team.id ? " ►" : ""}
+        {showRoster === team.id ? " ►" : ""}
       </Table.Cell>
       <Table.Cell>
         <Header as="h4" image>
-          <Image src={opponent.logo} rounded size="mini" />
+          {!mobile && opponent.logo ? (
+            <Image src={opponent.logo} rounded size="mini" />
+          ) : (
+            ""
+          )}
           <Header.Content>
             <Header.Subheader className="matchup">
-              {matchupStatus}
-            </Header.Subheader>
-            <Header.Subheader className="matchup">
-              {opponent !== "bye"
-                ? `${points} to ${opponent.totalPointsLive}`
-                : ""}
-            </Header.Subheader>
+              {opponent === "bye" ? (
+                matchupStatus
+              ) : (
+                <React.Fragment>
+                  <Button size="mini" onClick={selectMatchup}>
+                    {matchupStatus}
+                  </Button>
+                  {matchup === team.id ? " ►" : ""}
+                </React.Fragment>
+              )}
+            </Header.Subheader>{" "}
           </Header.Content>
         </Header>
       </Table.Cell>
