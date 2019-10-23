@@ -2,15 +2,24 @@ import React, { useState, useEffect } from "react";
 import { Table } from "semantic-ui-react";
 import Team from "./Team";
 
-const Teams = ({ teamsArray }) => {
+const Teams = ({ teamsArray, matchupsArray }) => {
   const [teams, setTeams] = useState([]);
   const [isSorted, setIsSorted] = useState(null);
   const [sortTag, setSortTag] = useState(null);
   const [isShowing, setIsShowing] = useState(null);
+  const [mobile, setMobile] = useState(true);
 
   useEffect(() => {
     setTeams(teamsArray);
   }, [teamsArray, teams]);
+
+  useEffect(() => {
+    if (window.innerWidth <= 600) {
+      setMobile(true);
+    } else {
+      setMobile(false);
+    }
+  }, []);
 
   const sortTable = e => {
     const sortType = e.target.getAttribute("data-value");
@@ -44,6 +53,11 @@ const Teams = ({ teamsArray }) => {
       expandRoster={expandRoster}
       team={team}
       isShowing={isShowing}
+      currentMatchup={matchupsArray.find(
+        game =>
+          team.id === game.homeTeam.teamId || team.id === game.awayTeam.teamId
+      )}
+      mobile={mobile}
     />
   ));
 
@@ -71,17 +85,24 @@ const Teams = ({ teamsArray }) => {
                 <p>Wins</p>
               </Table.HeaderCell>
               <Table.HeaderCell>Losses</Table.HeaderCell>
-              <Table.HeaderCell>
-                <p onClick={sortTable} data-value={"waiver"}>
-                  Waiver # {isSorted === "waiver" ? sortTag : ""}
-                </p>
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                <p onClick={sortTable} data-value={"rosterDraftAvg"}>
-                  Draft Avg {isSorted === "rosterDraftAvg" ? sortTag : ""}
-                </p>
-              </Table.HeaderCell>
+              {mobile ? (
+                <React.Fragment></React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <Table.HeaderCell>
+                    <p onClick={sortTable} data-value={"waiver"}>
+                      Waiver # {isSorted === "waiver" ? sortTag : ""}
+                    </p>
+                  </Table.HeaderCell>
+                  <Table.HeaderCell>
+                    <p onClick={sortTable} data-value={"rosterDraftAvg"}>
+                      Draft Avg {isSorted === "rosterDraftAvg" ? sortTag : ""}
+                    </p>
+                  </Table.HeaderCell>
+                </React.Fragment>
+              )}
               <Table.HeaderCell>Roster</Table.HeaderCell>
+              <Table.HeaderCell>Current Matchup</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
 

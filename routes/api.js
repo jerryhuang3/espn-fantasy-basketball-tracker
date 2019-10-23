@@ -227,7 +227,6 @@ router.get("/players", async (req, res) => {
       matchup[week] = [];
     }
     if (i % 6 === 0 && i !== 102) {
-      console.log("pushing at week", week, i);
       matchup[week].push(
         moment(day)
           .startOf("week")
@@ -266,4 +265,58 @@ router.get("/players", async (req, res) => {
   }
   res.json(matchup);
 });
+
+router.get("/matchup", async (req, res) => {
+  const [matchup, team] = await Promise.all([
+    axios.get(`${url}?view=mMatchupScore`, {
+      headers: {
+        Cookie: cookie
+      }
+    }),
+    axios.get(`${url}?view=mTeam`, {
+      headers: {
+        Cookie: cookie
+      }
+    })
+  ]);
+
+  const teamObj = team.data.teams.map(team => {
+    return { id: team.id, tag: team.abbrev, logo: team.logo };
+  });
+
+  const matchupWeek = matchup.data.schedule.filter(
+    matchup => matchup.matchupPeriodId === 1
+  );
+
+  const matchupObj = matchupWeek.map(matchup => {
+    if (matchup.away && matchup.home) {
+      return {
+        homeTeam: {
+          teamId: matchup.home.teamId,
+          tag: teamObj.find(team => team.id === matchup.home.teamId).tag,
+          logo: teamObj.find(team => team.id === matchup.home.teamId).logo,
+          totalPointsLive: matchup.home.totalPointsLive
+        },
+        awayTeam: {
+          teamId: matchup.away.teamId,
+          tag: teamObj.find(team => team.id === matchup.away.teamId).tag,
+          logo: teamObj.find(team => team.id === matchup.away.teamId).logo,
+          totalPointsLive: matchup.away.totalPointsLive
+        }
+      };
+    } else {
+      return {
+        awayTeam: "bye",
+        homeTeam: {
+          teamId: matchup.home.teamId,
+          tag: teamObj.find(team => team.id === matchup.home.teamId).tag,
+          logo: teamObj.find(team => team.id === matchup.home.teamId).logo,
+          totalPointsLive: matchup.home.totalPointsLive
+        }
+      };
+    }
+  });
+  res.json(matchupObj);
+});
+
 module.exports = router;
