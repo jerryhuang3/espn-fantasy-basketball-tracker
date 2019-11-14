@@ -94,8 +94,7 @@ router.get('/', async function(req, res, next) {
 				}) / team.roster.length;
 	});
 
-  // res.json(teamObjArray);
-  res.json(rostersArray[2].roster.entries[13])
+  res.json(teamObjArray);
 });
 
 //ACTIVITY_MAP = {
