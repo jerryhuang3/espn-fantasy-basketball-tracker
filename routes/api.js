@@ -66,15 +66,14 @@ router.get('/', async function(req, res, next) {
 	rostersArray.forEach((team, teamIdx) => {
 		team.roster.entries.forEach((player, playerIdx) => {
 			const stats = player.playerPoolEntry.player.stats.filter(stat => stat.id === '002020' || stat.id === '102020' || stat.id === '002019');
-
 			teamObjArray[teamIdx].roster.push({
         name: player.playerPoolEntry.player.fullName,
         playerId: player.playerPoolEntry.player.id,
 				averageDraftPosition: player.playerPoolEntry.player.ownership.averageDraftPosition,
 				yearTot: stats[0].appliedTotal,
 				yearAvg: stats[0].appliedAverage,
-				projTot: stats[1].appliedTotal,
-				projAvg: stats[1].appliedAverage,
+				projTot: stats[1] ? stats[1].appliedTotal : 0,
+				projAvg: stats[1] ? stats[1].appliedAverage : 0,
 				lastYearTot: stats[2] ? stats[2].appliedTotal : 0,
 				lastYearAvg: stats[2] ? stats[2].appliedAverage : 0
 			});
@@ -83,7 +82,6 @@ router.get('/', async function(req, res, next) {
 
 	// console.log(rostersArray[8].roster.entries[14].playerPoolEntry.player.fullName);
 	// console.log("applied avg", rostersArray[8].roster.entries[14]
-
   // console.log(rostersArray[0].roster.entries[14]);
 	teamObjArray.forEach((team, teamidx) => {
 		team.rosterDraftAvg =
