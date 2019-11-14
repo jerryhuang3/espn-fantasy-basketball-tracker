@@ -1,238 +1,251 @@
 @media (prefers-color-scheme: dark) {
-  body {
-    color: #fff;
-    background-color: rgb(43, 43, 43);
-  }
-  tr,
-  th,
-  table,
-  tbody {
-    color: #fff !important;
-    border-color: #fff !important;
-    div {
-      color: #fff !important;
-    }
-  }
-  a {
-    color: #a3d1ff;
-  }
-  .ui.celled.table tr td,
-  .ui.celled.table tr th {
-    border-color: #fff !important;
-  }
-  .week-dropdown {
-    color: black !important;
-    div {
-      color: black !important;
-    }
-  }
-  .show-matchup {
-    .home-team {
-      border-right: 1px solid rgb(60, 60, 60) !important;
-    }
-    .away-team {
-      border-left: 1px solid rgb(60, 60, 60) !important;
-    }
-  }
+	body {
+		color: #fff;
+		background-color: rgb(43, 43, 43);
+	}
+	tr,
+	th,
+	table,
+	tbody {
+		color: #fff !important;
+		border-color: #fff !important;
+		div {
+			color: #fff !important;
+		}
+	}
+	a {
+		color: #a3d1ff;
+	}
+	.header {
+		a {
+			color: white !important;
+		}
+	}
+	.ui.celled.table tr td,
+	.ui.celled.table tr th {
+		border-color: #fff !important;
+	}
+	.week-dropdown {
+		color: black !important;
+		div {
+			color: black !important;
+		}
+	}
+	.show-matchup {
+		.home-team {
+			border-right: 1px solid rgb(60, 60, 60) !important;
+		}
+		.away-team {
+			border-left: 1px solid rgb(60, 60, 60) !important;
+		}
+	}
+	.ui.modal > .content {
+		background: #2b2b2b !important;
+	}
+	.ui.header {
+		color: white;
+	}
 }
 
 .show-roster {
-  display: table-row-group !important;
+	display: table-row-group !important;
 }
 .show-header {
-  display: table-header-group !important;
+	display: table-header-group !important;
 }
 
 .hide {
-  display: none;
+	display: none;
 }
 
-[id^="roster"] {
-  /* gets all elements where id starting with info */
-  display: none;
+[id^='roster'] {
+	/* gets all elements where id starting with info */
+	display: none;
 }
 
 .container {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr auto auto;
-  margin-left: 60px !important;
-  margin-right: 60px !important;
+	display: grid;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr auto auto;
+	margin-left: 60px !important;
+	margin-right: 60px !important;
 
-  .header {
-    grid-row: 1;
-    margin: 40px 0;
-    justify-self: center;
-    h1 {
-      text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
-    }
+	.header {
+		grid-row: 1;
+		margin: 40px 0;
+		justify-self: center;
+		h1 {
+			text-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
+		}
+		a {
+			color: black;
+		}
+	}
+
+	.activity {
+		display: grid;
+		grid-row: 2;
+		justify-items: center;
+		align-self: center;
+		margin: 0 auto;
+		margin-bottom: 20px;
+		button {
+			margin-bottom: 10px;
+		}
+		.recent {
+			display: grid;
+			grid-template-columns: auto auto;
+			column-gap: 40px;
+			font-size: 14px;
+			padding: 10px;
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+		}
   }
 
-  .activity {
-    display: grid;
-    grid-row: 2;
-    justify-items: center;
-    align-self: center;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    button {
-      margin-bottom: 10px;
-    }
-    .recent {
-      display: grid;
-      grid-template-columns: auto auto;
-      column-gap: 40px;
-      font-size: 14px;
-      padding: 10px;
-      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    }
-  }
+	.teams {
+		grid-row: 3;
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: auto auto;
+		justify-items: center;
+		gap: 40px;
 
-  .teams {
-    grid-row: 3;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto auto;
-    justify-items: center;
-    gap: 40px;
+		.teams-list {
+			grid-row: 1 / span 1;
+			min-width: 745px;
+		}
 
-    .teams-list {
-      grid-row: 1 / span 1;
-      min-width: 745px;
-    }
+		.roster {
+			grid-row: 2 / span 1;
+			align-self: center;
+		}
+	}
 
-    .roster {
-      grid-row: 2 / span 1;
-      align-self: center;
-    }
-  }
-
-  .show-matchup {
-    width: 75%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto auto;
-    justify-items: center;
-    align-items: center;
-    text-align: center;
-    margin: 10px;
-    row-gap: 20px;
-    img {
-      width: 75px;
-      height: 75px;
-    }
-    .matchup-header {
-      grid-column: 1 / span 2;
-      grid-row: 1 / span 1;
-      font-size: 30px;
-    }
-    .home-team {
-      z-index: 0;
-      grid-column: 1 / span 1;
-      grid-row: 2;
-      border-right: 1px solid rgb(199, 199, 199);
-      width: 100%;
-    }
-    .versus {
-      z-index: 1;
-      grid-column: 1 / span 2;
-      grid-row: 2;
-      font-size: 50px;
-      text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
-    }
-    .away-team {
-      z-index: 0;
-      grid-column: 2 / span 1;
-      grid-row: 2;
-      border-left: 1px solid rgb(199, 199, 199);
-      width: 100%;
-    }
-  }
+	.show-matchup {
+		width: 75%;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: auto auto;
+		justify-items: center;
+		align-items: center;
+		text-align: center;
+		margin: 10px;
+		row-gap: 20px;
+		img {
+			width: 75px;
+			height: 75px;
+		}
+		.matchup-header {
+			grid-column: 1 / span 2;
+			grid-row: 1 / span 1;
+			font-size: 30px;
+		}
+		.home-team {
+			z-index: 0;
+			grid-column: 1 / span 1;
+			grid-row: 2;
+			border-right: 1px solid rgb(199, 199, 199);
+			width: 100%;
+		}
+		.versus {
+			z-index: 1;
+			grid-column: 1 / span 2;
+			grid-row: 2;
+			font-size: 50px;
+			text-shadow: 2px 4px 3px rgba(0, 0, 0, 0.3);
+		}
+		.away-team {
+			z-index: 0;
+			grid-column: 2 / span 1;
+			grid-row: 2;
+			border-left: 1px solid rgb(199, 199, 199);
+			width: 100%;
+		}
+	}
 }
 
 @media (min-width: 601px) and (max-width: 1450px) {
-  .container {
-    margin-left: 40px !important;
-    margin-right: 40px !important;
+	.container {
+		margin-left: 40px !important;
+		margin-right: 40px !important;
 
-    .teams {
-      grid-row: 3;
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto;
-      justify-items: center;
+		.teams {
+			grid-row: 3;
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: auto auto;
+			justify-items: center;
 
-      .teams-list {
-        grid-column: 1;
-        grid-row: 1 / span 1;
-        min-width: 745px;
-      }
+			.teams-list {
+				grid-column: 1;
+				grid-row: 1 / span 1;
+				min-width: 745px;
+			}
 
-      .roster {
-        grid-column: 1;
-        grid-row: 2 / span 2;
-        align-self: center;
-        min-width: 700px;
-      }
-    }
-  }
+			.roster {
+				grid-column: 1;
+				grid-row: 2 / span 2;
+				align-self: center;
+			}
+		}
+	}
 }
 
 @media (max-width: 600px) {
-  .container {
-    display: grid;
-    width: 100%;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto auto;
-    margin: 0 !important;
+	.container {
+		display: grid;
+		width: 100%;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr auto auto;
+		margin: 0 !important;
 
-    .header {
-      h1 {
-        font-size: 20px;
-      }
-    }
+		.header {
+			h1 {
+				font-size: 20px;
+			}
+		}
 
-    .teams {
-      grid-row: 3;
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: auto auto;
-      justify-items: center;
-      gap: 20px;
-      font-size: 10px;
+		.teams {
+			grid-row: 3;
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: auto auto;
+			justify-items: center;
+			gap: 20px;
+			font-size: 10px;
 
-      .teams-list {
-        grid-column: 1;
-        grid-row: 1 / span 1;
-        min-width: 0;
-        .content {
-          padding-left: 5px;
-          font-size: 12px;
-          .sub.header.team {
-            display: none;
-          }
-        }
-      }
+			.teams-list {
+				grid-column: 1;
+				grid-row: 1 / span 1;
+				min-width: 0;
+				.content {
+					padding-left: 5px;
+					font-size: 12px;
+					.sub.header.team {
+						display: none;
+					}
+				}
+			}
 
-      .roster {
-        grid-column: 1;
-        grid-row: 2 / span 2;
-        align-self: center;
-        padding: 10px;
-      }
-    }
+			.roster {
+				grid-column: 1;
+				grid-row: 2 / span 2;
+				align-self: center;
+				padding: 10px;
+			}
+		}
 
-    .activity {
-      .recent {
-        display: grid;
-        grid-template-columns: auto auto;
-        font-size: 10px;
-        padding: 10px;
-      }
-    }
+		.activity {
+			.recent {
+				display: grid;
+				grid-template-columns: auto auto;
+				font-size: 10px;
+				padding: 10px;
+			}
+		}
 
-    .show-matchup {
-      width: 100%;
-    }
-  }
+		.show-matchup {
+			width: 100%;
+		}
+	}
 }
